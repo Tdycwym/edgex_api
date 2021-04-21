@@ -1,7 +1,2 @@
-# Edgex-admin
-
-### 环境
-go1.15
-
-### 运行命令
-```./build.sh && ./output/bootstrap.sh ```
+# edgex_api
+edgex-go 反向代理

@@ -1,31 +1,32 @@
 package main
 
 import (
+	"flag"
+	"log"
+	"net/http"
+	"strconv"
 	"time"
 
-	ginzap "github.com/gin-contrib/zap"
-	"github.com/gin-gonic/gin"
-	"github.com/nju-iot/edgex_api/caller"
-	"github.com/nju-iot/edgex_api/config"
-	"github.com/nju-iot/edgex_api/logs"
-	"go.uber.org/zap"
+	"github.com/edgexfoundry/edgex-ui-go/configs"
+	"github.com/edgexfoundry/edgex-ui-go/proxy"
 )
-
-func init() {
-	config.InitConfig()
-	logs.InitLogs()
-	caller.InitClient()
-}
 
 func main() {
 
-	gin.SetMode(config.ServerSetting.RunMode)
+	var confFilePath string
+	flag.StringVar(&confFilePath, "conf", "", "Specify local configuration file path")
+	flag.Parse()
 
-	r := gin.New()
-	r.Use(ginzap.Ginzap(zap.L(), time.RFC3339, true))
-	r.Use(ginzap.RecoveryWithZap(zap.L(), true))
-
-	registerRouter(r)
-
-	_ = r.Run(config.ServerSetting.Port)
+	err := configs.LoadConfig(confFilePath)
+	if err != nil {
+		panic(err)
+	}
+	r := registerRouter()
+	server := &http.Server{
+		Handler:      proxy.ReverseProxy(r),
+		Addr:         ":" + strconv.FormatInt(configs.ServerConf.Port, 10),
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Fatal(server.ListenAndServe())
 }

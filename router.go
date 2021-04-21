@@ -1,17 +1,19 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/nju-iot/edgex_api/handler"
-	"github.com/nju-iot/edgex_api/handler/core_metadata"
-	"github.com/nju-iot/edgex_api/wrapper"
+	"net/http"
+
+	mux "github.com/gorilla/mux"
 )
 
-func registerRouter(r *gin.Engine) {
-	r.GET("/ping", handler.Ping)
-	// your code
+func registerRouter() http.Handler {
+	r := mux.NewRouter()
+	r.HandleFunc("/ping", ping).Methods(http.MethodGet)
+	r.HandleFunc("/api/v1/ping", ping).Methods(http.MethodGet)
+	return r
+}
 
-	// core_metadata
-	r.GET("/api/v1/device", wrapper.JsonOutPutWrapper(core_metadata.GetAllDevice))
-
+func ping(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte("pong"))
 }
