@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	defaultConfigFilePath = "configs/configuration.toml"
+	defaultConfigFilePath = "conf/configuration.toml"
 )
 
 var (
@@ -78,8 +78,11 @@ type RegistryConfig struct {
 	ServiceVersion     string
 }
 
-func LoadConfig() error {
-	absPath, err := filepath.Abs(defaultConfigFilePath)
+func LoadConfig(confFilePath string) error {
+	if len(confFilePath) == 0 {
+		confFilePath = defaultConfigFilePath
+	}
+	absPath, err := filepath.Abs(confFilePath)
 	if err != nil {
 		log.Printf("Could not create absolute path to load configuration: %s; %v", absPath, err.Error())
 		return err

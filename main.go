@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,7 +13,11 @@ import (
 
 func main() {
 
-	err := configs.LoadConfig()
+	var confFilePath string
+	flag.StringVar(&confFilePath, "conf", "", "Specify local configuration file path")
+	flag.Parse()
+
+	err := configs.LoadConfig(confFilePath)
 	if err != nil {
 		panic(err)
 	}
