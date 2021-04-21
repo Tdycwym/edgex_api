@@ -46,7 +46,7 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 	proxy.ServeHTTP(w, r)
 }
 
-func ReverseProxy() http.Handler {
+func ReverseProxy(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
 		for prefix := range configs.ProxyMapping {
@@ -56,5 +56,6 @@ func ReverseProxy() http.Handler {
 				return
 			}
 		}
+		h.ServeHTTP(w, r)
 	})
 }

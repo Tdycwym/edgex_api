@@ -21,9 +21,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	r := registerRouter()
 	server := &http.Server{
-		Handler:      proxy.ReverseProxy(),
+		Handler:      proxy.ReverseProxy(r),
 		Addr:         ":" + strconv.FormatInt(configs.ServerConf.Port, 10),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
