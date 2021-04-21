@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 FROM golang:1.15
 
-ENV CONF_FILE_PATH=conf/docker/configuration.toml
+ENV CONF_FILE_PATH=conf/docker/configuration.toml GO111MODULE=on GOPROXY=https://goproxy.cn GOSUMDB=off
 
 RUN mkdir -p $GOPATH/src/github.com/nju-iot/edgex_api
 
