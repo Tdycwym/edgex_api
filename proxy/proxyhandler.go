@@ -22,7 +22,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/edgexfoundry/edgex-ui-go/configs"
+	"github.com/nju-iot/edgex_api/configs"
 )
 
 const (

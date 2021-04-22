@@ -1,4 +1,4 @@
-module github.com/edgexfoundry/edgex-ui-go
+module github.com/nju-iot/edgex_api
 
 go 1.15
 

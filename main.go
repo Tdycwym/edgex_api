@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/edgexfoundry/edgex-ui-go/configs"
-	"github.com/edgexfoundry/edgex-ui-go/proxy"
+	"github.com/nju-iot/edgex_api/configs"
+	"github.com/nju-iot/edgex_api/proxy"
 )
 
 func main() {
